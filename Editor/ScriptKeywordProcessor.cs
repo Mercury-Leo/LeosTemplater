@@ -65,7 +65,6 @@ namespace Tools.Editor.Template
             var fileContent = System.IO.File.ReadAllText(path);
             fileContent = fileContent.Replace(NameSpace, namespaceString);
             System.IO.File.WriteAllText(path, fileContent);
-            AssetDatabase.Refresh();
         }
     }
 }
