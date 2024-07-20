@@ -43,6 +43,13 @@ namespace Tools.Editor.Templater
             {
                 TemplateGenerator.Regenerate();
             }
+
+            GUILayout.Space(20);
+
+            if (GUILayout.Button("Set to Default Templates"))
+            {
+                TemplaterSettings.instance.SetDefaultFolder();
+            }
         }
 
         [SettingsProvider]
