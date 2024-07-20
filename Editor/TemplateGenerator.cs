@@ -39,7 +39,7 @@ namespace Tools.Editor.Templater
 
     private static string GetMenuItemsPath()
     {
-        var packagePath = TemplaterUtility.FindPackageFolder(nameof(TemplateGenerator));
+        var packagePath = TemplaterUtility.FindScriptDirectory(nameof(TemplateGenerator));
         if (string.IsNullOrEmpty(packagePath))
         {
             Debug.LogError("Failed to find package path");
@@ -49,6 +49,9 @@ namespace Tools.Editor.Templater
         return Path.Combine(packagePath, MenuItemsClassName).FixSlashes();
     }
 
+    /// <summary>
+    /// Regenerates the MenuItem file
+    /// </summary>
     public static void Regenerate()
     {
         GenerateMenuItems(GetAllTemplates());
@@ -72,12 +75,6 @@ namespace Tools.Editor.Templater
     private static void GenerateMenuItems(IEnumerable<string> files)
     {
         var builder = new StringBuilder();
-        if (!string.IsNullOrEmpty(TemplaterSettings.instance.Header))
-        {
-            builder.Append("/*");
-            builder.Append(TemplaterSettings.instance.Header);
-            builder.Append("*/");
-        }
 
         builder.Append(Header);
 
@@ -87,13 +84,6 @@ namespace Tools.Editor.Templater
         }
 
         builder.Append(Footer);
-
-        if (!string.IsNullOrEmpty(TemplaterSettings.instance.Footer))
-        {
-            builder.Append("/*");
-            builder.Append(TemplaterSettings.instance.Footer);
-            builder.Append("*/");
-        }
 
         try
         {
@@ -108,11 +98,32 @@ namespace Tools.Editor.Templater
     private static string GenerateMenuItemCode(string filePath, int priority = 40)
     {
         var path = filePath.FixSlashes();
-        var itemName = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(path));
-        var itemClass = itemName + "Class.cs";
+        var templateFolder = TemplaterSettings.instance.TemplateFolder;
+        var folderIndex = path.IndexOf(templateFolder, StringComparison.Ordinal);
 
-        return $@"   
-        [MenuItem(""{CreationPath}{itemName}"", priority = {priority})]
+        if (folderIndex < 0)
+        {
+            return string.Empty;
+        }
+
+        // Finds the relative path of the template, used for templates inside folders
+        var relativePath = path[(folderIndex + templateFolder.Length)..].TrimStart('/', '\\');
+
+        // Removes all the extensions as templates come as .cs.txt
+        while (Path.HasExtension(relativePath))
+        {
+            relativePath = Path.ChangeExtension(relativePath, null);
+        }
+
+        // Used for menuitem name 
+        var templatePath = relativePath.TrimEnd('.').Replace(" ", string.Empty);
+
+        // Used for function name (Templates/someFolder/SomeTemplate.cs.txt = someFolderSomeTemplate)
+        var itemName = templatePath.Replace("/", string.Empty).Replace("\\", string.Empty);
+        var itemClass = $"{itemName}Class.cs";
+
+        return $@"
+        [MenuItem(""{CreationPath}{templatePath}"", priority = {priority})]
         public static void Create{itemName}MenuItem()
         {{
             if (!File.Exists(""{path}""))
@@ -123,6 +134,11 @@ namespace Tools.Editor.Templater
         }}";
     }
 
+    /// <summary>
+    /// If Templates hash has changed set the new hash
+    /// </summary>
+    /// <param name="files"></param>
+    /// <returns></returns>
     private static bool TemplatesUpdated(IEnumerable<string> files)
     {
         var currentHash = TemplatesHash.HashFiles(files);
