@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using Tools.Editor.Templater;
 using UnityEditor;
 using UnityEngine;
 
@@ -64,7 +66,37 @@ namespace Tools.Editor.Template
 
             var fileContent = System.IO.File.ReadAllText(path);
             fileContent = fileContent.Replace(NameSpace, namespaceString);
-            System.IO.File.WriteAllText(path, fileContent);
+            System.IO.File.WriteAllText(path, AttachSettingsContent(fileContent));
+        }
+
+        /// <summary>
+        /// Creates file content with Header and Footer from the TemplaterGlobalSetting
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        private static string AttachSettingsContent(string content)
+        {
+            var builder = new StringBuilder();
+
+            if (!string.IsNullOrEmpty(TemplaterGlobalSettings.instance.Header))
+            {
+                builder.AppendLine("/*");
+                builder.AppendLine(TemplaterGlobalSettings.instance.Header);
+                builder.AppendLine("*/");
+            }
+
+            builder.AppendLine();
+            builder.AppendLine(content);
+            builder.AppendLine();
+
+            if (!string.IsNullOrEmpty(TemplaterGlobalSettings.instance.Footer))
+            {
+                builder.AppendLine("/*");
+                builder.AppendLine(TemplaterGlobalSettings.instance.Footer);
+                builder.AppendLine("*/");
+            }
+
+            return builder.ToString();
         }
     }
 }
