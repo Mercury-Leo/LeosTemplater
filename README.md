@@ -2,11 +2,17 @@
 
 ## What it Does
 
-Leo's Templater is a Unity package that provides users with customizable Unity script templates. It allows users to streamline their workflow by automating the creation of new scripts based on predefined templates.
+Leo's Templater provides users with customizable Unity script templates. It allows users to streamline their workflow by automating the creation of new scripts based on predefined templates.
 
 ## How to Install
 
-
+Installing as GIT dependency via Package Manager
+1. Open Package Manager (Window -> Package Manager)
+2. Click `+` button on the upper left of the window, select "Add mpackage from git URL...'
+3. Enter the following URL and click the `Add` button
+   ```
+   https://github.com/Mercury-Leo/LeosTemplater.git
+   ```
 
 ## Features
 
