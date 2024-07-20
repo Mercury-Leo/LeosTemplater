@@ -4,9 +4,14 @@ using UnityEngine;
 
 namespace Tools.Editor.Templater
 {
-    public static class TemplaterUtility
+    internal static class TemplaterUtility
     {
-        public static string FindPackageFolder(string scriptName)
+        /// <summary>
+        /// Finds a script folder
+        /// </summary>
+        /// <param name="scriptName"></param>
+        /// <returns></returns>
+        public static string FindScriptDirectory(string scriptName)
         {
             var scriptGuids = AssetDatabase.FindAssets(Path.GetFileNameWithoutExtension(scriptName));
 
@@ -20,6 +25,11 @@ namespace Tools.Editor.Templater
             return Path.GetDirectoryName(path);
         }
 
+        /// <summary>
+        /// Fixes slashes for path
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public static string FixSlashes(this string input)
         {
             return input.Replace('\\', '/');

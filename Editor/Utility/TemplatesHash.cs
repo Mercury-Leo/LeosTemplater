@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using UnityEditor;
 using UnityEngine;
 
 namespace Tools.Editor.Templater
 {
-    public static class TemplatesHash
+    internal static class TemplatesHash
     {
         private static string _hashFilePath;
         private static readonly string HashFilePath = _hashFilePath ?? GetHashFilePath();
@@ -59,7 +58,7 @@ namespace Tools.Editor.Templater
 
         private static string GetHashFilePath()
         {
-            var package = TemplaterUtility.FindPackageFolder(nameof(TemplatesHash));
+            var package = TemplaterUtility.FindScriptDirectory(nameof(TemplatesHash));
             if (string.IsNullOrEmpty(package))
             {
                 Debug.LogError("Failed to find Templater package path");
