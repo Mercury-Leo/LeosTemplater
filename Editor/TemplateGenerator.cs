@@ -93,6 +93,11 @@ namespace Tools.Editor.Templater
         {
             Debug.LogError($"Failed to write to {MenuItemsPath}: {e}");
         }
+
+         if (File.Exists(MenuItemsPath))
+        {
+            AssetDatabase.ImportAsset(MenuItemsPath, ImportAssetOptions.ForceUpdate);
+        }
     }
 
     private static string GenerateMenuItemCode(string filePath, int priority = 40)
