@@ -41,7 +41,7 @@ namespace Tools.Editor.Templater
 
         private static string GetMenuItemsPath()
         {
-            var folder = Path.Combine(Application.dataPath, "Templater");
+            var folder = Path.Combine("Assets/Templater");
             if (!Directory.Exists(folder))
             {
                 Directory.CreateDirectory(folder);
