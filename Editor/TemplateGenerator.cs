@@ -94,7 +94,7 @@ namespace Tools.Editor.Templater
             Debug.LogError($"Failed to write to {MenuItemsPath}: {e}");
         }
 
-         if (File.Exists(MenuItemsPath))
+        if (File.Exists(MenuItemsPath))
         {
             AssetDatabase.ImportAsset(MenuItemsPath, ImportAssetOptions.ForceUpdate);
         }
@@ -160,6 +160,8 @@ namespace Tools.Editor.Templater
 
     private static IEnumerable<string> GetAllTemplates()
     {
-        return Directory.GetFiles(TemplaterSettings.instance.TemplateFolder, "*.txt", SearchOption.AllDirectories);
+        return string.IsNullOrEmpty(TemplaterSettings.instance.TemplateFolder)
+            ? Enumerable.Empty<string>()
+            : Directory.GetFiles(TemplaterSettings.instance.TemplateFolder, "*.txt", SearchOption.AllDirectories);
     }
 }
