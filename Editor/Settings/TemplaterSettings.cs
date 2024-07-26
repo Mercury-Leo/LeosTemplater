@@ -11,6 +11,11 @@ namespace Tools.Editor.Templater
     {
         [SerializeField] private string? _templatesFolder;
 
+        private void Awake()
+        {
+            SetDefaultFolder();
+        }
+
         public string TemplateFolder
         {
             get => _templatesFolder ?? GetDefaultTemplatesPath();
@@ -33,7 +38,6 @@ namespace Tools.Editor.Templater
 
         private string GetDefaultTemplatesPath()
         {
-            Debug.LogError("Setting to default");
             var root = TemplaterUtility.FindScriptDirectory(nameof(TemplateGenerator));
             return Path.Combine(root, "Templates").FixSlashes();
         }
