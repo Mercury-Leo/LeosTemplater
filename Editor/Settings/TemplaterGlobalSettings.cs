@@ -8,7 +8,6 @@ namespace Tools.Editor.Templater
     internal sealed class TemplaterGlobalSettings : ScriptableSingleton<TemplaterGlobalSettings>
     {
         [SerializeField] private string _header = string.Empty;
-
         [SerializeField] private string _footer = string.Empty;
 
         public string Header

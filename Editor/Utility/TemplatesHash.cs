@@ -5,11 +5,12 @@ using System.Security.Cryptography;
 using System.Text;
 using UnityEngine;
 
+#nullable enable
 namespace Tools.Editor.Templater
 {
     internal static class TemplatesHash
     {
-        private static string _hashFilePath;
+        private static string? _hashFilePath;
         private static readonly string HashFilePath = _hashFilePath ?? GetHashFilePath();
 
         public static string HashFiles(IEnumerable<string> files)
