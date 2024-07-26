@@ -162,6 +162,11 @@ namespace Tools.Editor.Templater
 
         private static IEnumerable<string> GetAllTemplates()
         {
+            if (!Directory.Exists(TemplaterSettings.instance.TemplateFolder))
+            {
+                return Enumerable.Empty<string>();
+            }
+
             return string.IsNullOrEmpty(TemplaterSettings.instance.TemplateFolder)
                 ? Enumerable.Empty<string>()
                 : Directory.GetFiles(TemplaterSettings.instance.TemplateFolder, "*.txt", SearchOption.AllDirectories);

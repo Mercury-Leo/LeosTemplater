@@ -33,6 +33,7 @@ namespace Tools.Editor.Templater
 
         private string GetDefaultTemplatesPath()
         {
+            Debug.LogError("Setting to default");
             var root = TemplaterUtility.FindScriptDirectory(nameof(TemplateGenerator));
             return Path.Combine(root, "Templates").FixSlashes();
         }
