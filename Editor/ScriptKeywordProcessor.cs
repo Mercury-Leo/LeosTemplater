@@ -25,6 +25,16 @@ namespace Tools.Editor.Template
 
         public static void OnWillCreateAsset(string path)
         {
+            if(string.IsNullOrEmpty(path))
+            {
+                return;
+            }
+
+            if(!path.EndsWith(".cs.txt", StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+            
             path = path.Replace(Meta, string.Empty);
             var index = path.LastIndexOf(Dot, StringComparison.Ordinal);
             if (index < 0)
