@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
+using static Tools.Editor.Templater.TemplaterConfig;
 
 #nullable enable
 namespace Tools.Editor.Templater
@@ -41,13 +42,12 @@ namespace Tools.Editor.Templater
 
         private static string GetMenuItemsPath()
         {
-            var folder = Path.Combine("Assets/Templater");
-            if (!Directory.Exists(folder))
+            if (!Directory.Exists(TemplaterGeneratedPath))
             {
-                Directory.CreateDirectory(folder);
+                Directory.CreateDirectory(TemplaterGeneratedPath);
             }
 
-            return Path.Combine(folder, MenuItemsClassName).FixSlashes();
+            return Path.Combine(TemplaterGeneratedPath, MenuItemsClassName).FixSlashes();
         }
 
         /// <summary>

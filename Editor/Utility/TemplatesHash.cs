@@ -4,6 +4,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using UnityEngine;
+using static Tools.Editor.Templater.TemplaterConfig;
 
 #nullable enable
 namespace Tools.Editor.Templater
@@ -59,14 +60,12 @@ namespace Tools.Editor.Templater
 
         private static string GetHashFilePath()
         {
-            var package = TemplaterUtility.FindScriptDirectory(nameof(TemplatesHash));
-            if (string.IsNullOrEmpty(package))
+            if (!Directory.Exists(TemplaterGeneratedPath))
             {
-                Debug.LogError("Failed to find Templater package path");
-                return string.Empty;
+                Directory.CreateDirectory(TemplaterGeneratedPath);
             }
 
-            return Path.Combine(package, "TemplateHash.txt");
+            return Path.Combine(TemplaterGeneratedPath, "TemplateHash.txt").FixSlashes();
         }
     }
 }
