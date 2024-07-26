@@ -41,14 +41,13 @@ namespace Tools.Editor.Templater
 
         private static string GetMenuItemsPath()
         {
-            var packagePath = TemplaterUtility.FindScriptDirectory(nameof(TemplateGenerator));
-            if (string.IsNullOrEmpty(packagePath))
+            var folder = Path.Combine(Application.dataPath, "Templater");
+            if (!Directory.Exists(folder))
             {
-                Debug.LogError("Failed to find package path");
-                return Application.dataPath;
+                Directory.CreateDirectory(folder);
             }
 
-            return Path.Combine(packagePath, MenuItemsClassName).FixSlashes();
+            return Path.Combine(folder, MenuItemsClassName).FixSlashes();
         }
 
         /// <summary>
