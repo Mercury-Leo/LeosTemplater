@@ -99,6 +99,7 @@ namespace Tools.Editor.Templater
             if (File.Exists(MenuItemsPath))
             {
                 AssetDatabase.ImportAsset(MenuItemsPath, ImportAssetOptions.ForceUpdate);
+                AssetDatabase.Refresh();
             }
         }
 
