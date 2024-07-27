@@ -19,16 +19,7 @@ namespace Tools.Editor.Templater
         public string TemplateFolder
         {
             get => _templatesFolder ?? GetDefaultTemplatesPath();
-            set
-            {
-                if (_templatesFolder == value)
-                {
-                    return;
-                }
-
-                _templatesFolder = value;
-                Save(true);
-            }
+            set => _templatesFolder = value;
         }
 
         public void SetDefaultFolder()
