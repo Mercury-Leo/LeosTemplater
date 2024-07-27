@@ -1,41 +1,71 @@
+
 # Leo's Templater
 
-## What it Does
+Do you ever want to create a simple C# script file, but Unity's default script comes with a lot of padding?
 
-Leo's Templater provides users with customizable Unity script templates. It allows users to streamline their workflow by automating the creation of new scripts based on predefined templates.
+Leo's Templater provides an easy way to create different kinds of scripts, just the way you like them. Use the default scripts that come with the package or create your own, change the way you create scripts.
 
-## How to Install
+The templates will appear under `Create/Templates`.
+
+## Features
+
+- Generate scripts using templates
+- Add Header and/or Footer to created scripts
+- Built-in templates (C# Class, Interface, Scriptable Object)
+- Support subfolder templates (Will appear in sub menus in the templates)
+
+## Installation
 
 Installing as GIT dependency via Package Manager
 1. Open Package Manager (Window -> Package Manager)
 2. Click `+` button on the upper left of the window, select "Add mpackage from git URL...'
 3. Enter the following URL and click the `Add` button
+
    ```
    https://github.com/Mercury-Leo/LeosTemplater.git
    ```
+    
+## How to Create a new Template
 
-## Features
+To create a new Template first you must change the Templater to search for custom templates. To change the templates folder location go to `Edit/Preferences/Leo's Tools/Templates` select the new template folder location.
 
-- **Customizable Templates**: Easily create and manage your script templates.
-- **Folder Selection**: Choose a specific folder to store your templates.
-- **Automated Script Creation**: Generate new scripts using your templates with a simple tool interface.
+#### Creating the template
+First create a new file inside the Templates folder, `{templateName}.cs.txt`
+Edit the file to your specification.
 
-## How to Setup a Template
+This is a basic script template:
+```
+namespace #NAMESPACE# 
+{
+	public class #SCRIPTNAME# 
+	{
+	    #NOTRIM#
+	}
+}
+```
+- '#NAMESPACE#' will automatically try and assign the correct namespace to the generated script.
+- '#SCRIPTNAME#' will assign the script name when generated.
+- '#NOTRIM#' prevents an empty space from being deleted.
 
-1. **Create Template Files**:
-    - Create a folder in your project to hold your template files (e.g., `Assets/Templates`).
-    - Inside this folder, create your template files with the extension `.cs.txt`.
-2. **Configure Tool Settings**:
-    - Open the Leo's Templater tool from the Unity toolbar (`Tools > Leo's Templater > Settings`).
-    - Select the folder where your template files are located.
-3. **Generate Scripts**:
-    - Use the tool interface to select a template and create a new script based on it.
+## Adding Header and Footer
+To change the Header and Footer of scripts head to `Edit/Project Settings/Leo's Tools/Templates`.
 
-## Guidelines
+Edit the Header and Footer to your liking, both will appear commented out at the top and bottom of the genereated script respectfully.
 
-- **Naming Conventions**: Ensure your template files have meaningful names to easily identify them.
-- **Template Structure**: Follow standard C# script structure in your templates, using placeholders where necessary.
-- **Folder Organization**: Keep your templates organized in clearly named folders to enhance workflow efficiency.
-- **Updates and Maintenance**: Regularly update your templates to keep them relevant and useful.
+## Examples
 
-By following these guidelines, you can maximize the efficiency and effectiveness of Leo's Templater in your Unity projects.
+Scriptable object
+```
+using UnityEngine;
+
+namespace #NAMESPACE# 
+{
+    [CreateAssetMenu(fileName = "new#SCRIPTNAME#", menuName = "#SCRIPTNAME#")]
+    public class #SCRIPTNAME# : ScriptableObject 
+    {
+        #NOTRIM#
+    }
+}
+
+```
+
