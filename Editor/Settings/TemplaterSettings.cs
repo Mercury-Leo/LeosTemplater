@@ -10,7 +10,7 @@ namespace Tools.Editor.Templater
     internal sealed class TemplaterSettings : ScriptableSingleton<TemplaterSettings>
     {
         [SerializeField] private string? _templatesFolder;
-
+        
         private void Awake()
         {
             SetDefaultFolder();
@@ -19,7 +19,16 @@ namespace Tools.Editor.Templater
         public string TemplateFolder
         {
             get => _templatesFolder ?? GetDefaultTemplatesPath();
-            set => _templatesFolder = value;
+            set
+            {
+                if (_templatesFolder == value)
+                {
+                    return;
+                }
+
+                _templatesFolder = value;
+                Save(true);
+            }
         }
 
         public void SetDefaultFolder()

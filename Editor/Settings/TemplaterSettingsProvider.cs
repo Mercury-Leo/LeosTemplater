@@ -10,6 +10,9 @@ namespace Tools.Editor.Templater
         private TemplaterSettingsProvider(string path, SettingsScope scopes,
             IEnumerable<string> keywords = null) : base(path, scopes, keywords) { }
 
+        private readonly GUIContent _templateFolder =
+            new("Selected Templates Folder", "The folder from which the templates are sourced");
+
         public override void OnGUI(string searchContext)
         {
             base.OnGUI(searchContext);
@@ -21,13 +24,13 @@ namespace Tools.Editor.Templater
             EditorGUILayout.BeginHorizontal();
 
             EditorGUI.BeginDisabledGroup(true);
-            EditorGUILayout.TextField("Selected Templates folder", templatesFolder);
+            EditorGUILayout.TextField(_templateFolder, templatesFolder);
             EditorGUI.EndDisabledGroup();
 
             if (GUILayout.Button("...", GUILayout.Width(25)))
             {
-                var selectedFolder = EditorUtility.OpenFolderPanel("Select the Templates folder",
-                    TemplaterSettings.instance.TemplateFolder, string.Empty);
+                var selectedFolder = EditorUtility.OpenFolderPanel("Select Templates Folder",
+                    templatesFolder, string.Empty);
                 if (string.IsNullOrEmpty(selectedFolder))
                 {
                     return;
