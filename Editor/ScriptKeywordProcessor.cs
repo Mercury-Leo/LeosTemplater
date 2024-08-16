@@ -14,14 +14,13 @@ namespace Tools.Editor.Template
     /// </summary>
     internal sealed class ScriptKeywordProcessor : AssetModificationProcessor
     {
-        private static readonly char[] Splitters = { '/', '\\', '.' };
-        private static readonly List<string> WordsToDelete = new List<string>() { "Extensions", "Scripts", "Editor" };
-        private const string NameSpace = "#NAMESPACE#";
-        private const string FileExtensions = ".cs";
+        private static readonly char[] NamespaceSplitters = { '/', '\\', '.' };
+        private const string NamespaceMarker = "#NAMESPACE#";
+        private const string ClassFileExtension = ".cs";
+        private const string MetaFileExtension = ".meta";
         private const string Assets = "Assets";
         private const string Dot = ".";
-        private const string Meta = ".meta";
-        private const string DefaultNameSpace = "Globals";
+        private const string DefaultNamespace = "Global";
 
         public static void OnWillCreateAsset(string path)
         {
@@ -30,12 +29,14 @@ namespace Tools.Editor.Template
                 return;
             }
 
-            if (!path.EndsWith(".cs.txt", StringComparison.OrdinalIgnoreCase))
+            // Waits for the meta file to be created to be sure the script exists
+            if (!path.EndsWith(MetaFileExtension))
             {
                 return;
             }
 
-            path = path.Replace(Meta, string.Empty);
+            path = path.Replace(MetaFileExtension, string.Empty);
+
             var index = path.LastIndexOf(Dot, StringComparison.Ordinal);
             if (index < 0)
             {
@@ -43,16 +44,15 @@ namespace Tools.Editor.Template
             }
 
             var file = path[index..];
-            if (file != FileExtensions)
+            if (file != ClassFileExtension)
             {
                 return;
             }
 
-            var namespaces = path.Split(Splitters).ToList();
-            namespaces = namespaces.GetRange(1, namespaces.Count - 3);
-            namespaces = namespaces.Except(WordsToDelete).ToList();
+            var namespaces = path.Split(NamespaceSplitters).ToList();
+            namespaces = namespaces.GetRange(1, namespaces.Count - NamespaceSplitters.Length);
 
-            var namespaceString = DefaultNameSpace;
+            var namespaceString = DefaultNamespace;
             for (var i = 0; i < namespaces.Count; i++)
             {
                 if (i == 0)
@@ -75,7 +75,7 @@ namespace Tools.Editor.Template
             }
 
             var fileContent = System.IO.File.ReadAllText(path);
-            fileContent = fileContent.Replace(NameSpace, namespaceString);
+            fileContent = fileContent.Replace(NamespaceMarker, namespaceString);
             System.IO.File.WriteAllText(path, AttachSettingsContent(fileContent));
         }
 
