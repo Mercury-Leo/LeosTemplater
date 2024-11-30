@@ -1,16 +1,18 @@
 using System.IO;
 using UnityEditor;
 using UnityEngine;
-using static Tools.Editor.Templater.TemplaterConfig;
+using static LeosTemplater.Editor.TemplaterConfig;
 
 #nullable enable
-namespace Tools.Editor.Templater
+namespace LeosTemplater.Editor
 {
     [FilePath(TemplaterProjectSettingsPath, FilePathAttribute.Location.ProjectFolder)]
     internal sealed class TemplaterSettings : ScriptableSingleton<TemplaterSettings>
     {
-        [SerializeField] private string? _templatesFolder;
-        
+        [SerializeField] private string? templatesFolder;
+
+        private const string DefaultTemplatesFolder = "Templates";
+
         private void Awake()
         {
             SetDefaultFolder();
@@ -18,28 +20,38 @@ namespace Tools.Editor.Templater
 
         public string TemplateFolder
         {
-            get => _templatesFolder ?? GetDefaultTemplatesPath();
+            get => templatesFolder ?? GetDefaultTemplatesPath();
             set
             {
-                if (_templatesFolder == value)
+                if (templatesFolder == value)
                 {
                     return;
                 }
 
-                _templatesFolder = value;
-                Save(true);
+                templatesFolder = value;
+                SaveDirty();
             }
         }
 
         public void SetDefaultFolder()
         {
-            TemplateFolder = GetDefaultTemplatesPath();
+            if (templatesFolder is null)
+            {
+                TemplateFolder = GetDefaultTemplatesPath();
+            }
         }
 
         private string GetDefaultTemplatesPath()
         {
             var root = TemplaterUtility.FindScriptDirectory(nameof(TemplateGenerator));
-            return Path.Combine(root, "Templates").FixSlashes();
+            return Path.Combine(root, DefaultTemplatesFolder).FixSlashes();
+        }
+
+        private void SaveDirty()
+        {
+            Save(this);
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssets();
         }
     }
 }
