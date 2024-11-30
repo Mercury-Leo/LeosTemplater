@@ -4,11 +4,14 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using UnityEngine;
-using static Tools.Editor.Templater.TemplaterConfig;
+using static LeosTemplater.Editor.TemplaterConfig;
 
 #nullable enable
-namespace Tools.Editor.Templater
+namespace LeosTemplater.Editor
 {
+    /// <summary>
+    /// Creates a hash of the current templates.
+    /// </summary>
     internal static class TemplatesHash
     {
         private static string? _hashFilePath;
@@ -37,7 +40,8 @@ namespace Tools.Editor.Templater
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to save Templater hash: {e}");
+                Debug.LogError($"Failed to save Templater hash: {e}".AddPrefix());
+                throw;
             }
         }
 
@@ -52,7 +56,8 @@ namespace Tools.Editor.Templater
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to get Templater hash: {e}");
+                Debug.LogError($"Failed to get Templater hash: {e}".AddPrefix());
+                throw;
             }
 
             return string.Empty;
@@ -60,12 +65,20 @@ namespace Tools.Editor.Templater
 
         private static string GetHashFilePath()
         {
-            if (!Directory.Exists(TemplaterGeneratedPath))
+            try
             {
-                Directory.CreateDirectory(TemplaterGeneratedPath);
-            }
+                if (!Directory.Exists(TemplaterGeneratedPath))
+                {
+                    Directory.CreateDirectory(TemplaterGeneratedPath);
+                }
 
-            return Path.Combine(TemplaterGeneratedPath, "TemplateHash.txt").FixSlashes();
+                return Path.Combine(TemplaterGeneratedPath, "TemplateHash.txt").FixSlashes();
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Failed to get Templater hash file path: {e}".AddPrefix());
+                throw;
+            }
         }
     }
 }

@@ -2,12 +2,12 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace Tools.Editor.Templater
+namespace LeosTemplater.Editor
 {
     internal static class TemplaterUtility
     {
         /// <summary>
-        /// Finds a script folder
+        /// Finds a script's folder
         /// </summary>
         /// <param name="scriptName"></param>
         /// <returns></returns>
@@ -33,6 +33,11 @@ namespace Tools.Editor.Templater
         public static string FixSlashes(this string input)
         {
             return input.Replace('\\', '/');
+        }
+
+        public static string AddPrefix(this string message)
+        {
+            return $"[Leo's Templater] {message}";
         }
     }
 }
