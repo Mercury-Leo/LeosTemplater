@@ -24,10 +24,14 @@ Installing as GIT dependency via Package Manager
    ```
    https://github.com/Mercury-Leo/LeosTemplater.git
    ```
-    
-## How to Create a new Template
 
-To create a new Template first you must change the Templater to search for custom templates. To change the templates folder location go to `Edit/Preferences/Leo's Tools/Templates` select the new template folder location.
+## Getting Started
+
+The templater comes with 3 basic templates.
+To add custom templates:
+1. Pick the templates location. I recommand saving the templates as part of source control, for exmaple under `Project/Assets/Templater/Templates`.
+2. Go to `Edit/Preferences/Leo's Tools/Templates` and pick the folder for the templates.
+3. Press `Regenerate Templates`
 
 #### Creating the template
 First create a new file inside the Templates folder, `{templateName}.cs.txt`
