@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
-using static Tools.Editor.Templater.TemplaterConfig;
+using static LeosTemplater.Editor.TemplaterConfig;
 
 #nullable enable
-namespace Tools.Editor.Templater
+namespace LeosTemplater.Editor
 {
     [InitializeOnLoad]
     public static class TemplateGenerator

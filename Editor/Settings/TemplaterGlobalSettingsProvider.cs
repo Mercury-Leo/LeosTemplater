@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using static Tools.Editor.Templater.TemplaterConfig;
+using static LeosTemplater.Editor.TemplaterConfig;
 
-namespace Tools.Editor.Templater
+namespace LeosTemplater.Editor
 {
     internal sealed class TemplaterGlobalSettingsProvider : SettingsProvider
     {

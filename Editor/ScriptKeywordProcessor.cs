@@ -1,12 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Tools.Editor.Templater;
 using UnityEditor;
 using UnityEngine;
 
-namespace Tools.Editor.Template
+namespace LeosTemplater.Editor
 {
     /// <summary>
     /// Processes scripts created by the Templater

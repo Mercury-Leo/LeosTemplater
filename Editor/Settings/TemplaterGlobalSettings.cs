@@ -1,43 +1,50 @@
 using UnityEditor;
 using UnityEngine;
-using static Tools.Editor.Templater.TemplaterConfig;
+using static LeosTemplater.Editor.TemplaterConfig;
 
-namespace Tools.Editor.Templater
+namespace LeosTemplater.Editor
 {
     [FilePath(TemplaterGlobalProjectSettingsPath, FilePathAttribute.Location.ProjectFolder)]
     internal sealed class TemplaterGlobalSettings : ScriptableSingleton<TemplaterGlobalSettings>
     {
-        [SerializeField] private string _header = string.Empty;
-        [SerializeField] private string _footer = string.Empty;
+        [SerializeField] private string header = string.Empty;
+        [SerializeField] private string footer = string.Empty;
 
         public string Header
         {
-            get => _header;
+            get => header;
             set
             {
-                if (_header == value)
+                if (header == value)
                 {
                     return;
                 }
 
-                _header = value;
-                Save(true);
+                header = value;
+                SaveDirty();
             }
         }
 
         public string Footer
         {
-            get => _footer;
+            get => footer;
             set
             {
-                if (_footer == value)
+                if (footer == value)
                 {
                     return;
                 }
 
-                _footer = value;
-                Save(true);
+                footer = value;
+                SaveDirty();
             }
+        }
+
+        private void SaveDirty()
+        {
+            Save(this);
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssets();
         }
     }
 }

@@ -1,4 +1,4 @@
-namespace Tools.Editor.Templater
+namespace LeosTemplater.Editor
 {
     internal static class TemplaterConfig
     {
