@@ -1,8 +1,8 @@
 {
   "name": "com.leosclockworks.templater",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "displayName": "Leo's Templater",
-  "description": "Adds code templates for faster work flows",
+  "description": "Adds code templates for faster work-flows",
   "keywords": [
     "Code",
     "Template"
