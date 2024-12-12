@@ -102,7 +102,7 @@ namespace Tools.Editor.Templater
             }
         }
 
-        private static string GenerateMenuItemCode(string filePath, int priority = 40)
+        private static string GenerateMenuItemCode(string filePath, int priority = -400)
         {
             var path = filePath.FixSlashes();
             var templateFolder = TemplaterSettings.instance.TemplateFolder;
