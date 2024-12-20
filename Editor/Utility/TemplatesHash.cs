@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using UnityEngine;
-using static LeosTemplater.Editor.TemplaterConfig;
+using UnityEditor;
 
 #nullable enable
 namespace LeosTemplater.Editor
@@ -15,7 +14,8 @@ namespace LeosTemplater.Editor
     internal static class TemplatesHash
     {
         private static string? _hashFilePath;
-        private static readonly string HashFilePath = _hashFilePath ?? GetHashFilePath();
+
+        private const string TemplatesHashKey = nameof(TemplatesHashKey);
 
         public static string HashFiles(IEnumerable<string> files)
         {
@@ -34,51 +34,12 @@ namespace LeosTemplater.Editor
 
         public static void SetHash(string hash)
         {
-            try
-            {
-                File.WriteAllText(HashFilePath, hash);
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"Failed to save Templater hash: {e}".AddPrefix());
-                throw;
-            }
+            EditorPrefs.SetString(TemplatesHashKey, hash);
         }
 
         public static string GetHash()
         {
-            try
-            {
-                if (File.Exists(HashFilePath))
-                {
-                    return File.ReadAllText(HashFilePath);
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"Failed to get Templater hash: {e}".AddPrefix());
-                throw;
-            }
-
-            return string.Empty;
-        }
-
-        private static string GetHashFilePath()
-        {
-            try
-            {
-                if (!Directory.Exists(TemplaterGeneratedPath))
-                {
-                    Directory.CreateDirectory(TemplaterGeneratedPath);
-                }
-
-                return Path.Combine(TemplaterGeneratedPath, "TemplateHash.txt").FixSlashes();
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"Failed to get Templater hash file path: {e}".AddPrefix());
-                throw;
-            }
+            return EditorPrefs.HasKey(TemplatesHashKey) ? EditorPrefs.GetString(TemplatesHashKey) : string.Empty;
         }
     }
 }
